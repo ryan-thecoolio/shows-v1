@@ -24,14 +24,14 @@ def get_info(title):
 #     return data
 # DOGS!!!!
 
-def get_actor_images(list):
+def get_actor_images(list, title):
     google_apikey = 'ENTER API KEY 🤫'
     search_engine_id = 'ENTER SEARCH ENGINE ID 🤫'
     actor_list = {}
     for actor in list:
         actor_list[actor] = ''
     for actor in (actor_list.keys()):
-        item = f'{actor} in Game of Throne'
+        item = f'{actor} in {title}'
         search_query = item
 
         url = 'https://www.googleapis.com/customsearch/v1'
@@ -58,7 +58,7 @@ def index():
         if title:
             result = get_info(title)
             actors_list = [actor.strip() for actor in result['Actors'].split(',')]
-            images = get_actor_images(actors_list)
+            images = get_actor_images(actors_list, title)
             # placeholder = get_dog_placeholder()
     return render_template('index.html', result=result, images=images)
 
