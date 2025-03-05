@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    h1,h3,form,p{
+        margin: 10px;
+        text-align: center;
+    }
+    .shorten{
+        max-width: 650px;
+        word-wrap: break-word;
+        margin: 0 auto;
+    }
+    .responsive-img{
+        max-width: 200px;
+        height: auto;
+        margin: 0 auto;
+        display: block;
+        padding: 10px;
+    }
+</style>
+
+
+<body>
+    {% if not result or result.Title == "No results found" or result.Title.startswith("Error") %}
+        <h1 style="padding: 10px;">Search for information of a movie, series, or episode</h1>
+        <form method="post">
+            <input type="text" name="input" required>
+            <button type="submit">Search</button>
+        </form>
+    {% endif %}
+
+    {% if result %}
+        {% if result.Title != "No results found" and not result.Title.startswith("Error") %}
+            <h1>{{ result.Title }}</h1>
+            <h3>{{ result.Rated }} | {{ result.Ratings[0].Value }}</h3>
+            <img src="{{ result.Poster }}" class="responsive-img" alt="Poster of {{ result.Title }}">
+            <p class="shorten"><i>{{ result.Plot }}</i></p>
+            <table>
+                <tr>
+                    <th scope="col">Actors</th>
+                    <th scope="col">Image</th>
+                </tr>
+                {% for actor in images.keys()  %}
+                <tr>
+                    <th scope="row">{{ actor }}</th>
+                    <td><img src="{{ images[actor] }}" class="responsive-img" alt="An image of a dog as a placeholder!"></td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>{{ result.Title }}</p>
+        {% endif %}
+        <a href="/">Search for a different show?</a>
+    {% endif %}
+</body>
+</html>
